@@ -12,10 +12,38 @@ export async function getMenu() {
 }
 
 export async function getOrder(id) {
-  const res = await fetch(`${ORDER_URL}/${id}`);
-  if (!res.ok) throw Error(`Couldn't find order #${id}`);
+  // const res = await fetch(`${ORDER_URL}/${id}`);
+  // if (!res.ok) throw Error(`Couldn't find order #${id}`);
 
-  const { data } = await res.json();
+  // const { data } = await res.json();
+  console.log('fetching order id', id);
+  const data = {
+    id: 'ABCDEF',
+    customer: 'jonas',
+    phone: '131313',
+    address: 'Arrios, Lisbon, Portugal',
+    priority: true,
+    estimatedDelivery: '2027-04-25T10:00:00',
+    cart: [
+      {
+        pizzaId: 7,
+        name: 'Napolo',
+        quantity: 3,
+        unitPrice: 16,
+        totalPrice: 48,
+      },
+      {
+        pizzaId: 5,
+        name: 'Diavola',
+        quantity: 3,
+        unitPrice: 15,
+        totalPrice: 43,
+      },
+    ],
+    position: '-9.000,38.000',
+    orderPrice: 95,
+    priorityPrice: 19,
+  };
   return data;
 }
 

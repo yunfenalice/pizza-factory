@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+// import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../ui/Button';
 import { formatCurrency } from '../../utils/helpers';
@@ -11,6 +12,7 @@ function MenuItem({ pizza }) {
   const { id, name, unitPrice, ingredients, soldOut, imageUrl } = pizza;
   const currentQuanity = useSelector(getCurrentQuantityById(id));
   const isInCart = currentQuanity > 0;
+
   function handleAddToCart() {
     const newItem = {
       id: id,

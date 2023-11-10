@@ -6,13 +6,16 @@ function SearchOrder() {
   const navigate = useNavigate();
 
   function handleSubmit(e) {
+    // otherwise, it will create a new navigation
     e.preventDefault();
     if (!query) return;
+    // navigate to that page
     navigate(`/order/${query}`);
     setQuery('');
   }
 
   return (
+    // by wrapping input into form, so we can automatically submit the form simpily by hitting the Enter key.
     <form onSubmit={handleSubmit}>
       <input
         placeholder="Search order #"

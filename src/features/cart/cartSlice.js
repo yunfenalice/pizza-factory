@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
-
+import { cartStorage } from '../../signals/cartSignals';
+// state management principles:we should always derive state not store total price or total quantity. Otherwise, we have to keep them async
 const initialState = {
-  cart: [],
+  cart: [...cartStorage.value],
   //   cart: [
   //     {
   //       pizzaId: 12,
@@ -19,30 +20,55 @@ const cartSlice = createSlice({
   reducers: {
     addItem(state, action) {
       // payload=newItem {}
+
       state.cart.push(action.payload);
+
+      cartStorage.value = [...cartStorage.value, action.payload];
     },
     deleteItem(state, action) {
       //payload=pizzaId
       // splice, or filter
       state.cart = state.cart.filter((item) => item.id !== action.payload);
+      cartStorage.value = cartStorage.value.filter(
+        (item) => item.id !== action.payload,
+      );
     },
     increseItemQuantity(state, action) {
       //payload=pizzaId
       const item = state.cart.find((item) => item.id === action.payload);
       item.quantity++;
       item.totalPrice = item.quantity * item.unitPrice;
-      //state.cart = { ...state.cart, ...item };
+      cartStorage.value = cartStorage.value.map((item) => {
+        if (item.id === action.payload) {
+          return {
+            ...item,
+            quantity: item.quantity + 1,
+            totalPrice: item.quantity * item.unitPrice,
+          };
+        }
+        return item;
+      });
     },
     decreaseItemQuantity(state, action) {
       //payload=pizzaId
       const item = state.cart.find((item) => item.id === action.payload);
       item.quantity--;
       item.totalPrice = item.quantity * item.unitPrice;
-      // state.cart = { ...state.cart, ...item }; no need to do that, redux-toolkit allow us to mutate the data directly
+      cartStorage.value = cartStorage.value.map((item) => {
+        if (item.id === action.payload) {
+          return {
+            ...item,
+            quantity: item.quantity - 1,
+            totalPrice: item.quantity * item.unitPrice,
+          };
+        }
+        return item;
+      });
       if (item.quantity === 0) cartSlice.caseReducers.deleteItem(state, action);
     },
     clearCart(state) {
       state.cart = [];
+      cartStorage.value = [];
     },
   },
 });

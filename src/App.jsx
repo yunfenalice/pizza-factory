@@ -13,7 +13,7 @@ import { action as updateOrderAction } from './features/order/UpdateOrder';
 const router = createBrowserRouter([
   {
     element: <AppLayout />,
-    errorElement: <Error />,
+    errorElement: <Error />, //bubble up to the parent error page
     children: [
       {
         path: '/',
@@ -45,7 +45,11 @@ const router = createBrowserRouter([
   },
 ]);
 function App() {
-  return <RouterProvider router={router}></RouterProvider>;
+  return (
+    <>
+      <RouterProvider router={router}></RouterProvider>;
+    </>
+  );
 }
 
 export default App;

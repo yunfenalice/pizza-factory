@@ -26,9 +26,10 @@ function CreateOrder() {
   } = useSelector((state) => state.user);
   const isLoadingAddress = addressStatus === 'loading';
   const cart = useSelector(getCart);
+  // if the application is submitting or idle
   const navigation = useNavigation();
   const isSubmitting = navigation.state === 'submitting';
-
+  // handle errors
   const formErrors = useActionData();
   const totalCartPrice = useSelector(getTotalCartPrice);
   const priorityPrice = withPriority ? totalCartPrice * 0.2 : 0;
@@ -125,9 +126,9 @@ function CreateOrder() {
 }
 
 export async function action({ request }) {
+  //web api, formData provided by browser
   const formData = await request.formData();
   const data = Object.fromEntries(formData);
-  console.log(data);
   const order = {
     ...data,
     cart: JSON.parse(data.cart),
@@ -141,7 +142,6 @@ export async function action({ request }) {
       'Please give us your correct phone number. We might need it to contact you.';
 
   if (Object.keys(errors).length > 0) return errors;
-
   // If everything is okay, create new order and redirect
 
   const newOrder = await createOrder(order);

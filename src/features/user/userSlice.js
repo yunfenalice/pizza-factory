@@ -57,5 +57,7 @@ const userSlice = createSlice({
         state.error = action.error.message;
       }),
 });
+// export actions, so we can dispatch it later
 export const { updateName } = userSlice.actions;
+// to set up our reducer store
 export default userSlice.reducer;

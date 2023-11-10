@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/prop-types */
 import { useFetcher } from 'react-router-dom';
 import Button from '../../ui/Button';
 function UpdateOrder({ order }) {
